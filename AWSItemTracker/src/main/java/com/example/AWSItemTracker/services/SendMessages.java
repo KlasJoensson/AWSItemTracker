@@ -32,7 +32,7 @@ import software.amazon.awssdk.services.ses.model.SesException;
 // TODO Update the email sender address with a verified email address
 public class SendMessages {
 
-	private String sender = "tblue@nomailserver.com";
+	private String sender;
 
 	// The subject line for the email
 	private String subject = "Weekly AWS Status Report";
@@ -47,7 +47,8 @@ public class SendMessages {
 	private Region region;
 	
 	public SendMessages(Environment env) {
-		region = Region.of(env.getProperty("aws.region"));
+		this.region = Region.of(env.getProperty("aws.region"));
+		this.sender = env.getProperty("mail.sender");
 	}
 	
 	public void sendReport(InputStream is, String emailAddress ) throws IOException {

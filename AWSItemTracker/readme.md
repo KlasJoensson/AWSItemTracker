@@ -8,3 +8,4 @@ You also need to create a database with the Amazon RDS MySQL DB instance to get 
 My version of this application differs in some small and some lager ways from the one in the tutorial. 
 Some of the differences are:
  * Added a SQL-script for the database 
+ * Sets different settings from the properties file instead of having them in the code

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +28,7 @@ import com.example.AWSItemTracker.services.WriteExcel;
 public class MainController {
 
 	private Environment env;
+	private Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 	@Autowired
 	public MainController(Environment env) {
@@ -36,7 +39,7 @@ public class MainController {
 	public String root() {
 		return "index";
 	}
-
+	
 	@GetMapping("/login")
 	public String login(Model model) {
 		return "login";
@@ -63,7 +66,7 @@ public class MainController {
 		String guide = request.getParameter("guide");
 		String description = request.getParameter("description");
 		String status = request.getParameter("status");
-		InjectWorkService iw = new InjectWorkService();
+		InjectWorkService iw = new InjectWorkService(env);
 
 		// Create a Work Item object to pass to the injestNewSubmission method
 		WorkItem myWork = new WorkItem();
@@ -85,7 +88,7 @@ public class MainController {
 		String name = getLoggedUser();
 
 		String email = request.getParameter("email");
-		RetrieveItems ri = new RetrieveItems();
+		RetrieveItems ri = new RetrieveItems(env);
 		List<WorkItem> theList = ri.getItemsDataSQLReport(name);
 		WriteExcel writeExcel = new WriteExcel();
 		SendMessages sm = new SendMessages(env);
@@ -105,7 +108,7 @@ public class MainController {
 	String archieveWorkItem(HttpServletRequest request, HttpServletResponse response) {
 
 		String id = request.getParameter("id");
-		RetrieveItems ri = new RetrieveItems();
+		RetrieveItems ri = new RetrieveItems(env);
 		ri.flipItemArchive(id );
 		return id ;
 	}
@@ -119,7 +122,7 @@ public class MainController {
 		String description = request.getParameter("description");
 		String status = request.getParameter("status");
 
-		InjectWorkService ws = new InjectWorkService();
+		InjectWorkService ws = new InjectWorkService(env);
 		String value = ws.modifySubmission(id, description, status);
 		return value;
 	}
@@ -132,7 +135,7 @@ public class MainController {
 		//Get the Logged in User
 		String name = getLoggedUser();
 
-		RetrieveItems ri = new RetrieveItems();
+		RetrieveItems ri = new RetrieveItems(env);
 		String type = request.getParameter("type");
 
 		//Pass back all data from the database
@@ -153,7 +156,7 @@ public class MainController {
 	String modifyWork(HttpServletRequest request, HttpServletResponse response) {
 
 		String id = request.getParameter("id");
-		RetrieveItems ri = new RetrieveItems();
+		RetrieveItems ri = new RetrieveItems(env);
 		String xmlRes = ri.getItemSQL(id) ;
 		return xmlRes;
 	}

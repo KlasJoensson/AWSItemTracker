@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,6 +28,12 @@ import com.example.AWSItemTracker.entities.WorkItem;
 @Component
 public class RetrieveItems {
 
+	private String url;
+	
+	public RetrieveItems(Environment env) {
+		this.url =  env.getProperty("database.url");
+	}
+	
 	// Retrieves an item based on the ID
 	public String flipItemArchive(String id ) {
 
@@ -37,6 +44,9 @@ public class RetrieveItems {
 
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			ResultSet rs = null;
 			Statement s = c.createStatement();
@@ -76,7 +86,10 @@ public class RetrieveItems {
 		try {
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
-
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
+			
 			ResultSet rs = null;
 			Statement s = c.createStatement();
 			Statement scount = c.createStatement();
@@ -131,6 +144,9 @@ public class RetrieveItems {
 		try {
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			ResultSet rs = null;
 			Statement s = c.createStatement();
@@ -174,6 +190,9 @@ public class RetrieveItems {
 		try {
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			ResultSet rs = null;
 			Statement s = c.createStatement();
@@ -230,6 +249,9 @@ public class RetrieveItems {
 		try {
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			ResultSet rs = null;
 			Statement s = c.createStatement();

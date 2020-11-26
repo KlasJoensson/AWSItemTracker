@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.example.AWSItemTracker.entities.WorkItem;
@@ -17,6 +18,12 @@ import com.example.AWSItemTracker.entities.WorkItem;
 @Component
 public class InjectWorkService {
 
+	private String url;
+	
+	public InjectWorkService(Environment env) {
+		this.url = env.getProperty("database.url");
+	}
+	
 	// Inject a new submission
 	public String modifySubmission(String id, String desc, String status) {
 
@@ -27,6 +34,9 @@ public class InjectWorkService {
 
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			// Use prepared statements
 			PreparedStatement ps = null;
@@ -54,6 +64,9 @@ public class InjectWorkService {
 
 			// Create a Connection object
 			c = ConnectionHelper.getConnection();
+			if(!ConnectionHelper.isUrlSet()) {
+				ConnectionHelper.setDatabaseUrl(url);
+			}
 
 			// Use a prepared statement
 			PreparedStatement ps = null;

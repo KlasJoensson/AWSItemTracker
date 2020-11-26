@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,13 @@ import com.example.AWSItemTracker.services.WriteExcel;
 @Controller
 public class MainController {
 
+	private Environment env;
+	
+	@Autowired
+	public MainController(Environment env) {
+		this.env = env;
+	}
+	
 	@GetMapping("/")
 	public String root() {
 		return "index";
@@ -79,7 +88,7 @@ public class MainController {
 		RetrieveItems ri = new RetrieveItems();
 		List<WorkItem> theList = ri.getItemsDataSQLReport(name);
 		WriteExcel writeExcel = new WriteExcel();
-		SendMessages sm = new SendMessages();
+		SendMessages sm = new SendMessages(env);
 		java.io.InputStream is = writeExcel.exportExcel(theList);
 
 		try {

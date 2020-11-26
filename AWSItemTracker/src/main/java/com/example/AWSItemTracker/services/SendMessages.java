@@ -46,7 +46,6 @@ public class SendMessages {
 	
 	private Region region;
 	
-	@Autowired
 	public SendMessages(Environment env) {
 		region = Region.of(env.getProperty("aws.region"));
 	}

@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import com.example.AWSItemTracker.entities.WorkItem;
 public class InjectWorkService {
 
 	private String url;
+	
+	private static Logger logger = LoggerFactory.getLogger(InjectWorkService.class);
 	
 	public InjectWorkService(Environment env) {
 		this.url = env.getProperty("database.url");
@@ -48,7 +52,7 @@ public class InjectWorkService {
 			ps.execute();
 			return id;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not update the dataabse: " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -103,7 +107,7 @@ public class InjectWorkService {
 			return workId;
 
 		} catch (SQLException | ParseException e) {
-			e.printStackTrace();
+			logger.error("Could not insert new entety in the database: " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}

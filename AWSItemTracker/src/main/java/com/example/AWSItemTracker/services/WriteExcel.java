@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.AWSItemTracker.entities.WorkItem;
 
 import jxl.CellView;
@@ -22,6 +25,7 @@ public class WriteExcel {
 	
 	private WritableCellFormat timesBoldUnderline;
 	private WritableCellFormat times;
+	private Logger logger = LoggerFactory.getLogger(WriteExcel.class);
 
 	// Returns an InputStream that represents the Excel report
 	public java.io.InputStream exportExcel( List<WorkItem> list) {
@@ -30,7 +34,7 @@ public class WriteExcel {
 			java.io.InputStream is = write( list);
 			return is ;
 		} catch(WriteException | IOException e) {
-			e.printStackTrace();
+			logger.error("Could not export spread sheet: " + e.getMessage());
 		}
 		return null;
 	}

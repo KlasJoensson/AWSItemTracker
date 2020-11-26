@@ -18,6 +18,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -29,7 +31,6 @@ import software.amazon.awssdk.services.ses.model.RawMessage;
 import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
 import software.amazon.awssdk.services.ses.model.SesException;
 
-// TODO Update the email sender address with a verified email address
 public class SendMessages {
 
 	private String sender;
@@ -46,6 +47,9 @@ public class SendMessages {
 	
 	private Region region;
 	
+	private Logger logger = LoggerFactory.getLogger(SendMessages.class);
+	
+	@Autowired
 	public SendMessages(Environment env) {
 		this.region = Region.of(env.getProperty("aws.region"));
 		this.sender = env.getProperty("mail.sender");
@@ -59,7 +63,7 @@ public class SendMessages {
 		try {
 			send(fileContent,emailAddress);
 		} catch (MessagingException e) {
-			e.getStackTrace();
+			logger.error("Could not send message to '" + emailAddress +"': " + e.getMessage());
 		}
 	}
 
@@ -119,7 +123,7 @@ public class SendMessages {
 
 		// Send the email
 		try {
-			System.out.println("Attempting to send an email through Amazon SES " + "using the AWS SDK for Java...");
+			logger.info("Attempting to send an email through Amazon SES using the AWS SDK for Java...");
 
 			SesClient client = SesClient.builder()
 					.credentialsProvider(EnvironmentVariableCredentialsProvider.create())
@@ -147,10 +151,10 @@ public class SendMessages {
 			client.sendRawEmail(rawEmailRequest);
 
 		} catch (SesException e) {
-			System.err.println(e.awsErrorDetails().errorMessage());
+			logger.error("Could not send email: " + e.awsErrorDetails().errorMessage());
 			System.exit(1);
 		}
-		System.out.println("Email sent with attachment");
+		logger.info("Email sent with attachment");
 	}
 
 }

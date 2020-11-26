@@ -29,7 +29,7 @@ public class ConnectionHelper {
 			Class.forName("com.mysql.jc.jdbc.Driver").newInstance();
 			return DriverManager.getConnection(url, "root","root");
 		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			e.getStackTrace();
+			logger.error("Could not connect to the database: " + e.getMessage());
 		}
 		return null;
 	}
@@ -40,11 +40,14 @@ public class ConnectionHelper {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not close connection: " + e.getMessage());
 		}
 	}
 
 	public static void setDatabaseUrl(String dbUrl) {
+		if(url != null) {
+			logger.warn("Database url Changed!");
+		}
 		url = dbUrl;
 	}
 	

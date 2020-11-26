@@ -18,6 +18,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -29,6 +31,8 @@ import com.example.AWSItemTracker.entities.WorkItem;
 public class RetrieveItems {
 
 	private String url;
+	
+	private static Logger logger = LoggerFactory.getLogger(RetrieveItems.class);
 	
 	public RetrieveItems(Environment env) {
 		this.url =  env.getProperty("database.url");
@@ -64,7 +68,7 @@ public class RetrieveItems {
 			updateForm.execute();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not update item with id '" + id + "': " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -124,7 +128,7 @@ public class RetrieveItems {
 			return convertToString(toXml(itemList));
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not retrive any items for user '" + username + "': " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -169,7 +173,7 @@ public class RetrieveItems {
 
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not retrive item with id '" + id + "' :" + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -228,7 +232,7 @@ public class RetrieveItems {
 			return itemList;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not get the items data for user '"+username+"': " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -287,7 +291,7 @@ public class RetrieveItems {
 			return convertToString(toXml(itemList));
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Could not get the items data for user '"+username+"': " + e.getMessage());
 		} finally {
 			ConnectionHelper.close(c);
 		}
@@ -352,7 +356,7 @@ public class RetrieveItems {
 
 			return doc;
 		} catch(ParserConfigurationException e) {
-			e.printStackTrace();
+			logger.error("Could not parse item(s): " + e.getMessage());
 		}
 		return null;
 	}
@@ -366,7 +370,7 @@ public class RetrieveItems {
 			return result.getWriter().toString();
 
 		} catch(TransformerException ex) {
-			ex.printStackTrace();
+			logger.error("Could not convert xml to string: " + ex.getMessage());
 		}
 		return null;
 	}
@@ -406,7 +410,7 @@ public class RetrieveItems {
 			return doc;
 
 		} catch(ParserConfigurationException e) {
-			e.printStackTrace();
+			logger.error("Could not parse XML: " + e.getMessage());
 		}
 		return null;
 	}

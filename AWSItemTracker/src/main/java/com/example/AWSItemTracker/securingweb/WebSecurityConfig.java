@@ -1,5 +1,7 @@
 package com.example.AWSItemTracker.securingweb;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public WebSecurityConfig(Environment env) {
-		this.user = env.getProperty("user");
+		this.user = env.getProperty("app.user");
 		this.password = env.getProperty("password");
 	}
 	
@@ -57,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.withUser(user)
 		.password(passwordEncoder().encode(password))
 		.roles("USER");
+
 	}
 
 	@Bean

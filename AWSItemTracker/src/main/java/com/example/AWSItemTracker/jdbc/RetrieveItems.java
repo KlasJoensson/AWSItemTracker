@@ -30,13 +30,11 @@ import com.example.AWSItemTracker.entities.WorkItem;
 @Component
 public class RetrieveItems {
 
-	private String url;
 	private Environment env;
 	
 	private static Logger logger = LoggerFactory.getLogger(RetrieveItems.class);
 	
 	public RetrieveItems(Environment env) {
-		this.url =  env.getProperty("database.url");
 	}
 	
 	// Retrieves an item based on the ID

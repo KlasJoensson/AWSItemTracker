@@ -7,27 +7,38 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConnectionHelper {
 	
 	private static String url;
 	private static ConnectionHelper instance;
-
+	private static String username;
+	private static String password;
+	
 	private static Logger logger = LoggerFactory.getLogger(ConnectionHelper.class);
 	
-	private ConnectionHelper() {
+	private ConnectionHelper(Environment env) {
+		username = env.getProperty("database.username");
+		password = env.getProperty("database.password");
+		url = env.getProperty("database.url");
     }
 	
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnection(Environment env) throws SQLException {
 		if (instance == null) {
-			instance = new ConnectionHelper();	
+			instance = new ConnectionHelper(env);	
 			
 		}
 
 		try {
 
 			Class.forName("com.mysql.jc.jdbc.Driver").newInstance();
-			return DriverManager.getConnection(url, "root","root");
+			return DriverManager.getConnection(url, username, password);
 		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			logger.error("Could not connect to the database: " + e.getMessage());
 		}
@@ -49,10 +60,6 @@ public class ConnectionHelper {
 			logger.warn("Database url Changed!");
 		}
 		url = dbUrl;
-	}
-	
-	public static boolean isUrlSet() {
-		return url != null;
 	}
 	
 }

@@ -31,6 +31,7 @@ import com.example.AWSItemTracker.entities.WorkItem;
 public class RetrieveItems {
 
 	private String url;
+	private Environment env;
 	
 	private static Logger logger = LoggerFactory.getLogger(RetrieveItems.class);
 	
@@ -47,11 +48,8 @@ public class RetrieveItems {
 		try {
 
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
-
+			c = ConnectionHelper.getConnection(env);
+			
 			ResultSet rs = null;
 			Statement s = c.createStatement();
 			Statement scount = c.createStatement();
@@ -89,10 +87,7 @@ public class RetrieveItems {
 
 		try {
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
+			c = ConnectionHelper.getConnection(env);
 			
 			ResultSet rs = null;
 			Statement s = c.createStatement();
@@ -147,10 +142,7 @@ public class RetrieveItems {
 
 		try {
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
+			c = ConnectionHelper.getConnection(env);
 
 			ResultSet rs = null;
 			Statement s = c.createStatement();
@@ -193,11 +185,8 @@ public class RetrieveItems {
 
 		try {
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
-
+			c = ConnectionHelper.getConnection(env);
+			
 			ResultSet rs = null;
 			Statement s = c.createStatement();
 			Statement scount = c.createStatement();
@@ -252,11 +241,8 @@ public class RetrieveItems {
 		WorkItem item = null;
 		try {
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
-
+			c = ConnectionHelper.getConnection(env);
+			
 			ResultSet rs = null;
 			Statement s = c.createStatement();
 			Statement scount = c.createStatement();

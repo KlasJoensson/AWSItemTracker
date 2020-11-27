@@ -21,11 +21,13 @@ import com.example.AWSItemTracker.entities.WorkItem;
 public class InjectWorkService {
 
 	private String url;
+	private Environment env;
 	
 	private static Logger logger = LoggerFactory.getLogger(InjectWorkService.class);
 	
 	public InjectWorkService(Environment env) {
 		this.url = env.getProperty("database.url");
+		this.env = env;
 	}
 	
 	// Inject a new submission
@@ -37,10 +39,7 @@ public class InjectWorkService {
 		try {
 
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
+			c = ConnectionHelper.getConnection(env);
 
 			// Use prepared statements
 			PreparedStatement ps = null;
@@ -67,10 +66,7 @@ public class InjectWorkService {
 		try {
 
 			// Create a Connection object
-			c = ConnectionHelper.getConnection();
-			if(!ConnectionHelper.isUrlSet()) {
-				ConnectionHelper.setDatabaseUrl(url);
-			}
+			c = ConnectionHelper.getConnection(env);
 
 			// Use a prepared statement
 			PreparedStatement ps = null;

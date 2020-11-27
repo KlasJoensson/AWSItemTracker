@@ -1,6 +1,8 @@
 package com.example.AWSItemTracker.securingweb;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.AWSItemTracker.entities.WorkItem;
+import com.example.AWSItemTracker.jdbc.ConnectionHelper;
 import com.example.AWSItemTracker.jdbc.InjectWorkService;
 import com.example.AWSItemTracker.jdbc.RetrieveItems;
 import com.example.AWSItemTracker.services.SendMessages;
@@ -25,6 +28,7 @@ import com.example.AWSItemTracker.services.WriteExcel;
 @Controller
 public class MainController {
 
+	@Autowired
 	private Environment env;
 	
 	@Autowired

@@ -1,4 +1,6 @@
 -- This is a SQL-script for createing the database needed for the project
+CREATE SCHEMA awstracker;
+
 CREATE TABLE IF NOT EXISTS Work (
 	idwork VARCHAR(45) PRIMARY KEY, -- A value that represents the PK.
 	date DATE, 						-- Specifies the date the item was created.

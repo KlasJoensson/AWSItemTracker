@@ -98,7 +98,7 @@ public class RetrieveItems {
 			int arch = 1;
 
 			// Specify the SQL statement to query data
-			query = "Select idwork,username,date,description,guide,status FROM work where username = '" +username +"' and archive = " +arch +"";
+			query = "Select idwork,username,date,description,guide,status FROM Work where username = '" +username +"' and archive = " +arch +"";
 			pstmt = c.prepareStatement(query);
 			rs = pstmt.executeQuery();
 
@@ -151,7 +151,7 @@ public class RetrieveItems {
 			PreparedStatement ps = null;
 
 			//Specify the SQL statement to query data
-			query = "Select description, status FROM work where idwork ='" +id + "' ";
+			query = "Select description, status FROM Work where idwork ='" +id + "' ";
 			pstmt = c.prepareStatement(query);
 			rs = pstmt.executeQuery();
 
@@ -196,7 +196,7 @@ public class RetrieveItems {
 			int arch = 0;
 
 			// Specify the SQL statement to query data
-			query = "Select idwork,username,date,description,guide,status FROM work where username = '" 
+			query = "Select idwork,username,date,description,guide,status FROM Work where username = '" 
 					+username +"' and archive = " + arch +"";
 			pstmt = c.prepareStatement(query);
 			rs = pstmt.executeQuery();
@@ -252,7 +252,7 @@ public class RetrieveItems {
 			int arch = 0;
 
 			// Specify the SQL statement to query data
-			query = "Select idwork,username,date,description,guide,status FROM work where username = '" +username +"' and archive = " +arch +"";
+			query = "Select idwork,username,date,description,guide,status FROM Work where username = '" +username +"' and archive = " +arch +"";
 			pstmt = c.prepareStatement(query);
 			rs = pstmt.executeQuery();
 

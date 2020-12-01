@@ -42,7 +42,7 @@ public class InjectWorkService {
 			// Use prepared statements
 			PreparedStatement ps = null;
 
-			String query = "update work set description = ?, status = ? where idwork = '" +id +"'";
+			String query = "update Work set description = ?, status = ? where idwork = '" +id +"'";
 			ps = c.prepareStatement(query);
 			ps.setString(1, desc);
 			ps.setString(2, status);
@@ -88,7 +88,7 @@ public class InjectWorkService {
 			java.sql.Date sqlDate = new java.sql.Date( date1.getTime());
 
 			// Inject an item into the system
-			String insert = "INSERT INTO work (idwork, username,date,description, guide, status, archive) VALUES(?,?, ?,?,?,?,?);";
+			String insert = "INSERT INTO Work (idwork, username,date,description, guide, status, archive) VALUES(?,?, ?,?,?,?,?);";
 			ps = c.prepareStatement(insert);
 			ps.setString(1, workId);
 			ps.setString(2, name);

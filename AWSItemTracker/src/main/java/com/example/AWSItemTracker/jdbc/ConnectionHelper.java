@@ -37,9 +37,8 @@ public class ConnectionHelper {
 
 		try {
 
-			Class.forName("com.mysql.jc.jdbc.Driver").newInstance();
 			return DriverManager.getConnection(url, username, password);
-		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+		} catch (SQLException e) {
 			logger.error("Could not connect to the database: " + e.getMessage());
 		}
 		return null;

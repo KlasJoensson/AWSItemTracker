@@ -38,7 +38,10 @@ public class InjectWorkService {
 
 			// Create a Connection object
 			c = ConnectionHelper.getConnection(env);
-
+			if(c==null) {
+				logger.error("No connection!!!");
+				return "";
+			}
 			// Use prepared statements
 			PreparedStatement ps = null;
 
@@ -65,7 +68,11 @@ public class InjectWorkService {
 
 			// Create a Connection object
 			c = ConnectionHelper.getConnection(env);
-
+			if(c==null) {
+				logger.error("No connection!!!");
+				return "";
+			}
+			
 			// Use a prepared statement
 			PreparedStatement ps = null;
 
